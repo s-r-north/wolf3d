@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../includes/wolf3d.h"
 
 void	horizontal_ray(t_env *env, double angle, int th)
 {
@@ -106,5 +106,6 @@ void	multithread(t_env *env)
 	while (++i < NTHREAD)
 		pthread_join(env->tid[i], NULL);
 	mlx_put_image_to_window(env->mlx->mlx, env->mlx->win, env->mlx->img, 0, 0);
-	minimap(env);
+	if (env->map->toggle)
+		minimap(env);
 }

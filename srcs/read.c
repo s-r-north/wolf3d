@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../includes/wolf3d.h"
 
 void		free_map(int ***map, int x, int y)
 {
@@ -70,7 +70,6 @@ static void	get_var(t_env *env, char *line)
 		ft_putendl("Invalid Map");
 		exit(0);
 	}
-
 }
 
 void		read_map(t_env *env, int fd)
@@ -82,6 +81,7 @@ void		read_map(t_env *env, int fd)
 	line = NULL;
 	get_next_line(fd, &line);
 	get_var(env, line);
+	free(line);
 	map = (int**)malloc(sizeof(int*) * env->map_h);
 	i = -1;
 	while (get_next_line(fd, &line) > 0 && ++i < env->map_h)
@@ -93,6 +93,7 @@ void		read_map(t_env *env, int fd)
 		}
 		map[i] = (int*)malloc(sizeof(int) * env->map_w);
 		line_to_map(env, map[i], line, i);
+		free(line);
 	}
 	env->world = map;
 }

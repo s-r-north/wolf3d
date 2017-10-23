@@ -13,8 +13,8 @@
 #ifndef WOLF3D_H
 # define WOLF3D_H
 
-# include "./libs/minilibx_macos_10.11/mlx.h"
-# include "./libs/libft/libft.h"
+# include "../libs/minilibx_macos_10.11/mlx.h"
+# include "../libs/libft/libft.h"
 # include <math.h>
 # include <pthread.h>
 # include <limits.h>
@@ -27,7 +27,7 @@
 
 # define SCALE 262144
 # define FOV (M_PI / 4)
-# define WALL_HEIGHT (SCALE * WIN_H)
+# define WALL_HEIGHT (SCALE * WIN_H * 2)
 # define ANGLE_SHIFT (FOV / WIN_W)
 
 # define NTEX 11
@@ -64,6 +64,7 @@
 # define KEY_SP 49
 # define KEY_LSHIFT 257
 # define KEY_M 46
+# define KEY_TAB 48
 
 # define NTHREAD 8
 
@@ -83,6 +84,8 @@ typedef struct	s_ray
 	int			slice;
 	double		depth;
 	double		angle;
+	int			ceil;
+	int			floor;
 }				t_ray;
 
 typedef struct	s_xy
@@ -107,6 +110,7 @@ typedef struct	s_key
 	int			lf : 1;
 	int			shift : 1;
 	int			mute : 1;
+	int			tab : 1;
 	int			mouse;
 }				t_key;
 
@@ -138,6 +142,7 @@ typedef struct	s_minimap
 	int			*img[2];
 	t_fxy		pos;
 	double		dir;
+	int			toggle;
 }				t_minimap;
 
 typedef struct	s_env
@@ -211,7 +216,6 @@ int				exit_hook(t_env *env);
 */
 
 int				hook_func(t_env *env);
-
 int				check_grid(t_env *env, int x, int y);
 
 #endif

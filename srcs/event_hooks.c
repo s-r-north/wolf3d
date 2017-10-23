@@ -10,11 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../includes/wolf3d.h"
 
+static void	toggle_mute(t_env *env)
+{
+	if (env->key.mute)
+		system("killall -STOP -c \"afplay\"");
+	else
+		system("killall -CONT -c \"afplay\"");
+	env->key.mute = env->key.mute ? 0 : 1;
+}
 
-
-int		press_key(int keycode, t_env *env)
+int			press_key(int keycode, t_env *env)
 {
 	if (keycode == KEY_ESC)
 	{
@@ -35,20 +42,14 @@ int		press_key(int keycode, t_env *env)
 		env->key.d = 1;
 	if (keycode == KEY_LSHIFT)
 		env->key.shift = 1;
+	if (keycode == KEY_TAB)
+		env->map->toggle = env->map->toggle ? 0 : 1;
 	if (keycode == KEY_M)
-	{
-		if (env->key.mute)
-			system("killall -STOP -c \"afplay\"");
-		else
-			system("killall -CONT -c \"afplay\"");
-		env->key.mute = env->key.mute ? 0 : 1;
-	}
-	// if (keycode == KEY_Q)
-	// 	go_back(env);
+		toggle_mute(env);
 	return (0);
 }
 
-int		release_key(int keycode, t_env *env)
+int			release_key(int keycode, t_env *env)
 {
 	if (keycode == KEY_RT)
 		env->key.rt = 0;
@@ -64,11 +65,10 @@ int		release_key(int keycode, t_env *env)
 		env->key.d = 0;
 	if (keycode == KEY_LSHIFT)
 		env->key.shift = 0;
-	printf("key: %d\n", keycode);
 	return (0);
 }
 
-int		exit_hook(t_env *env)
+int			exit_hook(t_env *env)
 {
 	if (env->music)
 		system("killall -c \"afplay\"");
@@ -76,7 +76,7 @@ int		exit_hook(t_env *env)
 	return (0);
 }
 
-int		mouse_pos(int x, int y, t_env *env)
+int			mouse_pos(int x, int y, t_env *env)
 {
 	(void)y;
 	if (x < 0 || x > WIN_W || y < 0 || y > WIN_H)

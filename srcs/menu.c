@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../includes/wolf3d.h"
 
 static int	menu_hook(int mbutton, int x, int y, t_env *env)
 {
 	int i;
+	int fd;
 
 	if (mbutton != 1)
 		return (0);
@@ -27,13 +28,13 @@ static int	menu_hook(int mbutton, int x, int y, t_env *env)
 			i = -1;
 			while (++i < 3)
 				mlx_destroy_image(env->mlx->mlx, env->menu->ptr[i]);
-			int n = open("maps/test.wolf", O_RDONLY);
-			if (n == -1)
+			fd = open("maps/test.wolf", O_RDONLY);
+			if (fd == -1)
 			{
 				ft_putendl("File Does Not Exist");
 				exit(0);
 			}
-			read_map(env, n);
+			read_map(env, fd);
 			wolf(env);
 		}
 	}

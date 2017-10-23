@@ -5,7 +5,7 @@ FLAGS := -Wall -Werror -Wextra
 LIBS := libs/minilibx_macos_10.11/libmlx.a\
        libs/libft/libft.a
 
-SRC_FILES := raycast_concept.c	\
+SRC_FILES := draw_image.c		\
 			minimap.c			\
 			ray_cast.c			\
 			menu.c				\
@@ -15,11 +15,11 @@ SRC_FILES := raycast_concept.c	\
 			movement.c			\
 			read.c
 
-SRCS := $(addprefix ./, $(SRC_FILES))
+SRCS := $(addprefix srcs/, $(SRC_FILES))
 
 OBJS := $(SRCS:.c=.o)
 
-INC := ./wolf3d.h
+INC := includes/
 
 FRAMEWORKS := -framework OpenGL -framework AppKit
 
@@ -44,7 +44,7 @@ clean:
 fclean: clean
 	@/bin/rm -f rm $(NAME)
 	@make -C libs/libft/ fclean
-	@make -C libs/minilibx_macos_10.11/ fclean
+	@make -C libs/minilibx_macos_10.11/ clean
 
 new:
 	@/bin/rm -f rm $(NAME)

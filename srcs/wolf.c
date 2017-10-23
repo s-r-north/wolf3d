@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../includes/wolf3d.h"
 
 static char	*texture_asset(int num)
 {
@@ -55,6 +55,7 @@ static void	init_minimap(t_env *env)
 	env->map->ptr[1] = mlx_new_image(env->mlx->mlx, w, w);
 	env->map->img[0] = (int*)mlx_get_data_addr(env->map->ptr[0], &bpp, &w, &e);
 	env->map->img[1] = (int*)mlx_get_data_addr(env->map->ptr[1], &bpp, &w, &e);
+	env->map->toggle = 1;
 	w /= 4;
 	y = -1;
 	while (++y < w)
