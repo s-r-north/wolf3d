@@ -1,0 +1,13 @@
+/obj
+
+wolf3d
+
+/libs/libft/*.o
+/libs/libft/*.a
+
+/libs/minilibx_*/*.o
+/libs/minilibx_*/*.a
+
+._*
+
+.DS_Store

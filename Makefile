@@ -5,35 +5,49 @@ FLAGS := -Wall -Werror -Wextra
 LIBS := libs/minilibx_macos_10.11/libmlx.a\
        libs/libft/libft.a
 
-SRC_FILES := draw_image.c		\
-			minimap.c			\
-			ray_cast.c			\
-			menu.c				\
-			event_hooks.c		\
-			main.c				\
-			wolf.c				\
-			movement.c			\
-			read.c
+SDIR := srcs
 
-SRCS := $(addprefix srcs/, $(SRC_FILES))
+ODIR := obj
 
-OBJS := $(SRCS:.c=.o)
+FILES := draw_image		\
+			minimap		\
+			ray_cast	\
+			menu		\
+			event_hooks	\
+			main		\
+			wolf		\
+			movement	\
+			read
+
+SRCS := $(addprefix $(SDIR)/, $(FILES))
+
+OFILES := $(addprefix $(ODIR)/, $(FILES))
+OBJS := $(addsuffix .o, $(OFILES))
 
 INC := includes/
 
 FRAMEWORKS := -framework OpenGL -framework AppKit
 
+$(ODIR)/%.o: $(SDIR)/%.c
+	@$(CC) $(CFLAGS) -I $(INC) -c $^ -o $@
+	@/bin/echo -n "*"
+
 .PHONY := all clean fclean re
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(OBJS)
 	@echo "compiling libft..."
 	@make -C libs/libft/
 	@echo "compiling minilibx..."
 	@make -C libs/minilibx_macos_10.11/
-	@gcc $(FLAGS) $(SRCS) -I$(INC) $(LIBS) $(FRAMEWORKS) -o $(NAME)
+	@gcc $(FLAGS) $(OBJS) $(LIBS) -I$(INC) $(FRAMEWORKS) -o $(NAME)
 	@echo "Done!"
+
+$(OBJS): | $(ODIR)
+
+$(ODIR):
+	@mkdir -p $(ODIR)
 
 clean:
 	@echo "deleting files..."
