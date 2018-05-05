@@ -12,10 +12,27 @@
 
 #include "../includes/wolf3d.h"
 
-static int	menu_hook(int mbutton, int x, int y, t_env *env)
+static void	end_menu(t_env *env)
 {
 	int i;
 	int fd;
+
+	i = -1;
+	while (++i < 3)
+		mlx_destroy_image(env->mlx->mlx, env->menu->ptr[i]);
+	fd = open("maps/test.wolf", O_RDONLY);
+	if (fd == -1)
+	{
+		ft_putendl("File Does Not Exist");
+		exit(0);
+	}
+	read_map(env, fd);
+}
+
+static int	menu_hook(int mbutton, int x, int y, t_env *env)
+{
+	// int i;
+	// int fd;
 
 	if (mbutton != 1)
 		return (0);
@@ -25,17 +42,17 @@ static int	menu_hook(int mbutton, int x, int y, t_env *env)
 			exit(0);
 		if (x >= (WIN_W / 3) - 64 && x <= (WIN_W / 3) + 64)
 		{
-			i = -1;
-			while (++i < 3)
-				mlx_destroy_image(env->mlx->mlx, env->menu->ptr[i]);
-			fd = open("maps/test.wolf", O_RDONLY);
-			if (fd == -1)
-			{
-				ft_putendl("File Does Not Exist");
-				exit(0);
-			}
-			read_map(env, fd);
-			wolf(env);
+			// i = -1;
+			// while (++i < 3)
+			// 	mlx_destroy_image(env->mlx->mlx, env->menu->ptr[i]);
+			// fd = open("maps/test.wolf", O_RDONLY);
+			// if (fd == -1)
+			// {
+			// 	ft_putendl("File Does Not Exist");
+			// 	exit(0);
+			// }
+			// read_map(env, fd);
+			return (1);
 		}
 	}
 	return (0);
@@ -62,6 +79,8 @@ static int	menu_exit(int keycode, t_env *env)
 
 void		menu_loop(t_env *env, t_menu *menu)
 {
+	int ret;
+
 	mlx_put_image_to_window(env->mlx->mlx, env->mlx->win, menu->ptr[0], 0, 0);
 	mlx_put_image_to_window(env->mlx->mlx, env->mlx->win, menu->ptr[1],
 			(WIN_W / 3) - 64, (WIN_H / 2) + 20);
@@ -98,4 +117,6 @@ void		menu(t_env *env)
 	env->music = 0;
 	env->menu = &menu;
 	menu_loop(env, &menu);
+	write(1, "hello\n", 6);
+	end_menu(env);
 }

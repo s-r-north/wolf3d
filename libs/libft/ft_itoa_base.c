@@ -37,7 +37,7 @@ char		*ft_itoa_base(int n, int base)
 	sign = n < 0 ? -1 : 1;
 	while (n != 0)
 	{
-		store[++i] = ((sign * (n % base)) + (n % base < 9 ? 48 : 87));
+		store[++i] = ((sign * (n % base)) + (n % base < 10 ? 48 : 87));
 		n /= base;
 	}
 	store[++i] = sign == -1 ? '-' : 0;
